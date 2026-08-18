@@ -101,6 +101,11 @@ in
           mode = "0644";
         };
 
+        japan_wg_private_key = {
+          owner = "root";
+          mode = "0600";
+        };
+
         user_password = {
           neededForUsers = true;
         };

@@ -13,6 +13,7 @@
     ./disko
     ./k3s
     ./k8s
+    ./wireguard
   ];
 
   # Remove unnecessary preinstalled packages

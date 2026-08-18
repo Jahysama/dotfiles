@@ -56,11 +56,13 @@ let
       inherit namespace;
     };
     spec = {
-      type     = "ClusterIP";
-      selector.app = "cv-tui";
+      type           = "LoadBalancer";
+      loadBalancerIP = vars.ipPools.sslh;
+      externalTrafficPolicy = "Cluster";
+      selector.app   = "cv-tui";
       ports = [{
         name       = "ssh";
-        port       = 2222;
+        port       = 22;
         targetPort = 2222;
         protocol   = "TCP";
       }];

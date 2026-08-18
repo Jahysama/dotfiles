@@ -14,7 +14,7 @@ in {
           modules-left =
             [ "hyprland/workspaces" "hyprland/language" "custom/spotify" ];
           modules-center = [ "clock" ];
-          modules-right = [ "network" "backlight" "wireplumber" "battery" ];
+          modules-right = [ "custom/vpn" "network" "backlight" "wireplumber" "battery" ];
           "hyprland/language" = {
             format-en = "US";
             format-ru = "RU";
@@ -104,6 +104,25 @@ in {
               "warning" = 20;
               "critical" = 10;
             };
+            "tooltip" = false;
+          };
+          "custom/vpn" = {
+            "format" = "{}";
+            "exec" = ''
+              if systemctl is-active --quiet wg-quick-japan; then
+                echo '󰖂 JP'
+              else
+                echo '󰖪 JP'
+              fi
+            '';
+            "on-click" = ''
+              if systemctl is-active --quiet wg-quick-japan; then
+                sudo systemctl stop wg-quick-japan
+              else
+                sudo systemctl start wg-quick-japan
+              fi
+            '';
+            "interval" = 5;
             "tooltip" = false;
           };
           "custom/spotify" = {

@@ -13,6 +13,7 @@
       # unifi.enable = true;
       sops.enable = true;
       desktop.enable = true;
+      wireguard.enable = true;
     };
   };
 }
