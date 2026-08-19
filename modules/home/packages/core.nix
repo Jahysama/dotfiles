@@ -82,7 +82,22 @@ in {
       age
       tree
       vhs
+
+      # AI Coding Agent
+      kimchi
     ];
+
+    home.activation.installPonytail = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      marker="$HOME/.config/kimchi/.ponytail-installed"
+      if [ ! -f "$marker" ]; then
+        echo "Installing ponytail for kimchi..."
+        if $DRY_RUN_CMD ${pkgs.kimchi}/bin/kimchi install git:github.com/DietrichGebert/ponytail 2>/dev/null; then
+          $DRY_RUN_CMD touch "$marker"
+        else
+          echo "Ponytail install skipped (run 'kimchi setup' first, then 'kimchi install git:github.com/DietrichGebert/ponytail')"
+        fi
+      fi
+    '';
   };
 }
 

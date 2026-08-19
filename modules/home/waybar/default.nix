@@ -108,11 +108,12 @@ in {
           };
           "custom/vpn" = {
             "format" = "{}";
+            "return-type" = "json";
             "exec" = ''
               if systemctl is-active --quiet wg-quick-japan; then
-                echo '󰖂 JP'
+                echo '{"text": "󰖂 JP", "class": "connected"}'
               else
-                echo '󰖪 JP'
+                echo '{"text": "󰖪 JP", "class": "disconnected"}'
               fi
             '';
             "on-click" = ''
