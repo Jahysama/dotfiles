@@ -24,7 +24,7 @@
     # Development
     ./git
     ./claude
-    ./kimchi
+    ./kimchi.nix
 
     # System
     ./xdg
