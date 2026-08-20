@@ -87,6 +87,8 @@ in {
       kimchi
     ];
 
+    modules.kimchi.enable = true;
+
     home.activation.installPonytail = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       marker="$HOME/.config/kimchi/.ponytail-installed"
       if [ ! -f "$marker" ]; then

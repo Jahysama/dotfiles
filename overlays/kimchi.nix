@@ -8,7 +8,7 @@ final: prev: {
       hash = "sha256-Wr4eLYs34l7qaLKMCgD/QJzZzYYpFWPKxYyKAsZ1G5o=";
     };
 
-    nativeBuildInputs = [ prev.autoPatchelfHook ];
+    nativeBuildInputs = [ prev.autoPatchelfHook prev.makeWrapper ];
     buildInputs = [
       prev.stdenv.cc.cc.lib
       prev.openssl
@@ -24,8 +24,16 @@ final: prev: {
 
     installPhase = ''
       mkdir -p $out/bin
-      cp kimchi $out/bin/
-      chmod +x $out/bin/kimchi
+      cp bin/kimchi $out/bin/.kimchi-unwrapped
+      chmod +x $out/bin/.kimchi-unwrapped
+      cp -r share $out/share
+      makeWrapper $out/bin/.kimchi-unwrapped $out/bin/kimchi \
+        --prefix PATH : ${prev.lib.makeBinPath [
+          prev.fd
+          prev.ripgrep
+          prev.git
+          prev.nodejs
+        ]}
     '';
 
     meta = {
