@@ -24,6 +24,7 @@
     git.gpgSigningKey = "0xA9B2618B04CED76F";
 
     # System
+    kimchi.enable = true;
     xdg.enable = true;
     packages.enable = true;
     packages.desktop.enable = true;
