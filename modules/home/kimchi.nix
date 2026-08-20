@@ -10,7 +10,6 @@ let
     home = os.path.expanduser("~")
     claude_creds = os.path.join(home, ".claude", ".credentials.json")
     auth_path = os.path.join(home, ".config", "kimchi", "harness", "auth.json")
-    models_path = os.path.join(home, ".config", "kimchi", "harness", "models.json")
 
     try:
         with open(claude_creds) as f:
@@ -41,48 +40,6 @@ let
     with open(auth_path, "w") as f:
         json.dump(auth, f, indent=2)
     os.chmod(auth_path, 0o600)
-
-    claude_models = [
-      {"id": "claude-sonnet-4-6", "name": "Claude Sonnet 4.6", "api": "anthropic-messages",
-       "baseUrl": "https://api.anthropic.com", "reasoning": True, "input": ["text", "image"],
-       "contextWindow": 1000000, "maxTokens": 128000,
-       "cost": {"input": 3, "output": 15, "cacheRead": 0.3, "cacheWrite": 3.75},
-       "provider": "anthropic",
-       "compat": {"forceAdaptiveThinking": True, "supportsStrictTools": True}},
-      {"id": "claude-opus-4-8", "name": "Claude Opus 4.8", "api": "anthropic-messages",
-       "baseUrl": "https://api.anthropic.com", "reasoning": True, "input": ["text", "image"],
-       "contextWindow": 1000000, "maxTokens": 128000,
-       "cost": {"input": 5, "output": 25, "cacheRead": 0.5, "cacheWrite": 6.25},
-       "provider": "anthropic",
-       "compat": {"forceAdaptiveThinking": True, "supportsTemperature": False, "supportsStrictTools": True}},
-      {"id": "claude-haiku-4-5", "name": "Claude Haiku 4.5", "api": "anthropic-messages",
-       "baseUrl": "https://api.anthropic.com", "reasoning": True, "input": ["text", "image"],
-       "contextWindow": 200000, "maxTokens": 64000,
-       "cost": {"input": 1, "output": 5, "cacheRead": 0.1, "cacheWrite": 1.25},
-       "provider": "anthropic",
-       "compat": {"supportsStrictTools": True}},
-      {"id": "claude-fable-5", "name": "Claude Fable 5", "api": "anthropic-messages",
-       "baseUrl": "https://api.anthropic.com", "reasoning": True, "input": ["text", "image"],
-       "contextWindow": 1000000, "maxTokens": 128000,
-       "cost": {"input": 10, "output": 50, "cacheRead": 1, "cacheWrite": 12.5},
-       "provider": "anthropic",
-       "compat": {"forceAdaptiveThinking": True, "supportsStrictTools": True}},
-    ]
-
-    try:
-        with open(models_path) as f:
-            models_cfg = json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError):
-        models_cfg = {}
-
-    models_cfg.setdefault("providers", {})["anthropic"] = {
-        "api": "anthropic-messages",
-        "baseUrl": "https://api.anthropic.com",
-        "models": claude_models,
-    }
-
-    with open(models_path, "w") as f:
-        json.dump(models_cfg, f, indent="\t")
 
     print("kimchi: synced Claude subscription credentials")
   '';
