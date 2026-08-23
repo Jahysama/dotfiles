@@ -107,12 +107,14 @@ in {
             "tooltip" = false;
           };
           "custom/vpn" = {
-            "format" = "{}";
+            "format" = "{icon} {text}";
+            "format-icons" = { "on" = "󰖂"; "off" = "󰖪"; };
+            "return-type" = "json";
             "exec" = ''
               if systemctl is-active --quiet wg-quick-japan; then
-                echo '󰖂 JP'
+                echo '{"text":"JP","class":"on","alt":"on"}'
               else
-                echo '󰖪 JP'
+                echo '{"text":"JP","class":"off","alt":"off"}'
               fi
             '';
             "on-click" = ''
@@ -134,6 +136,10 @@ in {
             "interval" = 1;
             "signal" = 5;
             "exec" = ''
+              if ! pgrep -x spotify_player > /dev/null; then
+                echo '{"text": "No music playing", "tooltip": "Spotify not running", "alt": "stopped", "class": "stopped"}'
+                exit 0
+              fi
               PLAYBACK=$(spotify_player get key playback)
               if [ $? -eq 0 ]; then
                 ARTIST=$(echo "$PLAYBACK" | jq -r '.item.artists[0].name')
@@ -142,7 +148,7 @@ in {
                 IS_PLAYING=$(echo "$PLAYBACK" | jq -r '.is_playing')
                 echo "{\"text\": \"$ARTIST - $TITLE\", \"tooltip\": \"$TITLE by $ARTIST from $ALBUM\", \"alt\": \"$IS_PLAYING\", \"class\": \"$IS_PLAYING\"}"
               else
-                echo "{\"text\": \"No music playing\", \"tooltip\": \"Spotify not running\", \"alt\": \"stopped\", \"class\": \"stopped\"}"
+                echo '{"text": "No music playing", "tooltip": "Spotify not running", "alt": "stopped", "class": "stopped"}'
               fi
             '';
           };

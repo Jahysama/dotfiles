@@ -77,6 +77,7 @@ let
             ZONE_ID_EGOR=$(get_zone_id "${vars.domain}") || exit 1
             update_record "$ZONE_ID_EGOR" "vpn.${vars.domain}" false
             update_record "$ZONE_ID_EGOR" "signal.${vars.domain}" false
+            update_record "$ZONE_ID_EGOR" "telegram.${vars.domain}" false
 
             ZONE_ID_MLSHIP=$(get_zone_id "mlship.dev") || exit 1
             update_record "$ZONE_ID_MLSHIP" "mlship.dev" true

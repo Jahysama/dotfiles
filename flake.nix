@@ -3,6 +3,8 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # Separate pin so only wine can be updated without touching the main nixpkgs.
+    nixpkgs-wine.url = "github:nixos/nixpkgs/nixos-unstable";
     stylix.url = "github:danth/stylix";
 
     disko = {
@@ -145,6 +147,19 @@
           # Load overlays
           overlays = import ./overlays/default.nix;
 
+          # Wine-only upgrade overlay: pulls wineWowPackages.staging from a
+          # separately pinned nixpkgs so wine can be updated without touching
+          # the rest of the system. Only applied on x86_64-linux.
+          wineOverlay = final: prev:
+            if system == "x86_64-linux" then {
+              wineWowPackages = prev.wineWowPackages // {
+                staging = (import inputs."nixpkgs-wine" {
+                  inherit system;
+                  config.allowUnfree = true;
+                }).wineWowPackages.staging;
+              };
+            } else { };
+
           # Optional modules based on system type
           systemModules =
             if isDarwin then
@@ -166,7 +181,7 @@
           {
             networking.hostName = cleanHostname hostname;
             nixpkgs.config.allowUnfree = true;
-            nixpkgs.overlays = builtins.attrValues overlays;
+            nixpkgs.overlays = (builtins.attrValues overlays) ++ [ wineOverlay ];
           }
         ]
         ++ systemModules

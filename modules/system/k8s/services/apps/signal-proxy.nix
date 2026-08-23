@@ -9,7 +9,7 @@ let
     kind = "Certificate";
     metadata = {
       name = "signal-proxy-tls";
-      namespace = vars.namespaces.signalProxy;
+      namespace = vars.namespaces.proxies;
     };
     spec = {
       dnsNames = [ "signal.${vars.domain}" ];
@@ -26,7 +26,7 @@ let
     kind = "ConfigMap";
     metadata = {
       name = "signal-proxy-config";
-      namespace = vars.namespaces.signalProxy;
+      namespace = vars.namespaces.proxies;
     };
     # Two-server architecture matching Signal's official proxy:
     # 1. Port 443: terminates outer TLS (presents signal.egor.house cert),
@@ -95,7 +95,7 @@ let
     kind = "Deployment";
     metadata = {
       name = "signal-proxy";
-      namespace = vars.namespaces.signalProxy;
+      namespace = vars.namespaces.proxies;
     };
     spec = {
       replicas = 1;
@@ -143,7 +143,7 @@ let
     kind = "Service";
     metadata = {
       name = "signal-proxy";
-      namespace = vars.namespaces.signalProxy;
+      namespace = vars.namespaces.proxies;
     };
     spec = {
       type = "ClusterIP";
@@ -164,7 +164,7 @@ let
     kind = "Ingress";
     metadata = {
       name = "signal-proxy";
-      namespace = vars.namespaces.signalProxy;
+      namespace = vars.namespaces.proxies;
       annotations = {
         "nginx.ingress.kubernetes.io/ssl-passthrough" = "true";
       };
@@ -189,7 +189,7 @@ let
     kind = "HorizontalPodAutoscaler";
     metadata = {
       name = "signal-proxy";
-      namespace = vars.namespaces.signalProxy;
+      namespace = vars.namespaces.proxies;
     };
     spec = {
       scaleTargetRef = {
@@ -220,7 +220,7 @@ let
 in {
   signal-proxy = lib.mkRawManifest {
     name = "signal-proxy";
-    namespace = vars.namespaces.signalProxy;
+    namespace = vars.namespaces.proxies;
     resources = [
       certificateResource
       configMapResource

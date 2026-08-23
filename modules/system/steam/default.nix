@@ -25,6 +25,7 @@ in {
             winetricks
             protontricks
             azahar
+            wineWowPackages.staging
         ];
 
         programs.steam = {

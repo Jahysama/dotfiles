@@ -91,6 +91,7 @@ let
     extraArgs = [
       "--exclude-domains=signal.${vars.domain}"
       "--exclude-domains=nextcloud.${vars.domain}"
+      "--exclude-domains=telegram.${vars.domain}"
     ];
   };
 

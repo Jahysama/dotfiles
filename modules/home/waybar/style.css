@@ -78,6 +78,22 @@ tooltip {
   color: #f38ba8;
 }
 
+#custom-vpn {
+  background: #313244;
+  padding: 0px 8px;
+  margin: 3px 2px;
+  border-radius: 4px;
+  color: #6c7086;
+}
+
+#custom-vpn.on {
+  color: #a6e3a1;
+}
+
+#custom-vpn.off {
+  color: #f38ba8;
+}
+
 #custom-spotify {
   background: #313244;
   padding: 0px 8px;

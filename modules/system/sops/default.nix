@@ -126,6 +126,11 @@ in
           owner = "root";
           mode  = "0600";
         };
+
+        telegram_proxy_secret = {
+          owner = "root";
+          mode  = "0644";
+        };
       };
     };
   };
